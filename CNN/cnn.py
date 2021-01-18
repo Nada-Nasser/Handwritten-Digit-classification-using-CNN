@@ -1,4 +1,6 @@
-from helpers import create_sequential_model,prepare_training_and_testing_data, plt_history
+from sklearn.model_selection import KFold
+from CNN.helpers import create_sequential_model, prepare_training_and_testing_data, plt_history, \
+    apply_cross_validation_and_evaluate, accuracy_summary
 
 
 def run_cnn(arc_number):
@@ -7,10 +9,11 @@ def run_cnn(arc_number):
     (train_x, train_y), (test_x, test_y) = prepare_training_and_testing_data()
 
     model = create_sequential_model(arc_number) # compile and build CNN model
+    kfold = KFold(n_splits=3, shuffle=True, random_state=1)
 
-    history = model.fit(train_x, train_y, epochs=10,
-                        validation_data=(test_x, test_y)) # train the model
+    results, histories, model = apply_cross_validation_and_evaluate(model, train_x, train_y, kfold)
 
-    plt_history(history)
+    plt_history(histories)
+    accuracy_summary(results)
 
 run_cnn(1)
