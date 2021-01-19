@@ -1,3 +1,4 @@
+from sklearn.model_selection import KFold
 from tensorflow.python.keras import datasets, layers, models, optimizers
 import matplotlib.pyplot as plt
 from keras.utils import to_categorical
@@ -67,9 +68,12 @@ def create_sequential_model(n):
 
 
 # evaluate a model using k-fold cross-validation
-def apply_cross_validation_and_evaluate(model, data_X, data_Y, cv):
+def apply_cross_validation_and_evaluate(data_X, data_Y, nkfold, arc_number):
     scores, histories = list(), list()
     n = 1
+    bestAccuracy = 0
+
+    cv = KFold(n_splits=nkfold, shuffle=True, random_state=1)
     # cv is a kfolds cross validator , which is split into k folds
     # each fold splits data into train/test data indices
     # cv shuffles data in our case
@@ -78,17 +82,24 @@ def apply_cross_validation_and_evaluate(model, data_X, data_Y, cv):
         trainX, trainY, testX, testY = data_X[train_ix], data_Y[train_ix], data_X[test_ix], data_Y[test_ix]
 
         # fit model
-        history = model.fit(trainX, trainY, epochs=10, batch_size=32, validation_data=(testX, testY))
+        model = create_sequential_model(arc_number)  # compile and build CNN model
+        history = model.fit(trainX, trainY, epochs=2, batch_size=32, validation_data=(testX, testY))
 
         # evaluate model
         _, acc = model.evaluate(testX, testY, verbose=0)
-        print("accuracy for kfold #", n, 'is %.3f' % (acc * 100.0),'\n\n')
+        print("accuracy for kfold #", n, 'is %.3f' % (acc * 100.0), '\n\n')
         n += 1  # tells us which kfold we are at
+
+        if acc*100 > bestAccuracy:
+            bestAccuracy = acc*100
+            bestModel = model
 
         # stores scores and history
         scores.append(acc)
         histories.append(history)
-    return scores, histories ,model
+
+    return scores, histories, bestModel
+
 
 def plt_history(histories):
     print("cost plot:")
@@ -103,5 +114,6 @@ def plt_history(histories):
     plt.legend(loc='lower right')
     plt.show()
 
+
 def accuracy_summary(scores):
-    print('\n\n\nmean Accuracy:', mean(scores) * 100)
+    print('mean Accuracy of all models:', mean(scores) * 100)
