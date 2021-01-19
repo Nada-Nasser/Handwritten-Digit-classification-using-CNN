@@ -98,6 +98,7 @@ def apply_cross_validation_and_evaluate(data_X, data_Y, nkfold, arc_number):
         scores.append(acc)
         histories.append(history)
 
+    print("best accuracy achieved by the cross validation is:" , bestAccuracy)
     return scores, histories, bestModel
 
 
