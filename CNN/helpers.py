@@ -87,7 +87,7 @@ def apply_cross_validation_and_evaluate(data_X, data_Y, nkfold, arc_number):
 
         # evaluate model
         _, acc = model.evaluate(testX, testY, verbose=0)
-        print("accuracy for kfold #", n, 'is %.3f' % (acc * 100.0), '\n\n')
+        print("accuracy for kfold #", n, 'is ' , (acc * 100.0), '\n\n')
         n += 1  # tells us which kfold we are at
 
         if acc*100 > bestAccuracy:
