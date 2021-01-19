@@ -1,9 +1,15 @@
 from sklearn.model_selection import KFold
+#--------------------------------------------------------------------------
 from tensorflow.python.keras import datasets, layers, models, optimizers
 import matplotlib.pyplot as plt
 from keras.utils import to_categorical
 from tensorflow.keras import optimizers
 from numpy import mean
+#-------------------------------------------------------------------------
+#from tensorflow.python.keras import datasets, layers, models, optimizers
+#import matplotlib.pyplot as plt
+#from tensorflow.python.keras.utils import to_categorical
+#-------------------------------------------------------------------------
 
 
 # normalize data by divide each pixel in each image by 255(the max value for any pixel in the images)
@@ -105,14 +111,18 @@ def apply_cross_validation_and_evaluate(data_X, data_Y, nkfold, arc_number):
 def plt_history(histories):
     print("cost plot:")
     for i in range(len(histories)):
-        plt.plot(histories[i].history['loss'], color='blue', label='train')
+        l = 'train'+str(i)
+        plt.plot(histories[i].history['loss'], label=l)
     plt.legend(loc='lower right')
+    plt.title("Cost")
     plt.show()
 
     print("accuracy plot:")
     for i in range(len(histories)):
-        plt.plot(histories[i].history['accuracy'], color='blue', label='train')
+        l = 'train#'+str(i)
+        plt.plot(histories[i].history['accuracy'], label=l)
     plt.legend(loc='lower right')
+    plt.title("accuracy")
     plt.show()
 
 

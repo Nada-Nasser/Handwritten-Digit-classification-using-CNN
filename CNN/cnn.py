@@ -1,4 +1,4 @@
-from CNN.helpers import create_sequential_model, prepare_training_and_testing_data, plt_history, \
+from helpers import create_sequential_model, prepare_training_and_testing_data, plt_history, \
     apply_cross_validation_and_evaluate, accuracy_summary
 
 
@@ -15,5 +15,6 @@ def run_cnn(arc_number):
     _,acc = bestModel.evaluate(test_x,test_y,verbose=0)
     print("\n\nModel Accuracy of the best model found in the cross validation is:",acc)
     accuracy_summary(results)
+
 
 run_cnn(1)
