@@ -83,7 +83,7 @@ def apply_cross_validation_and_evaluate(data_X, data_Y, nkfold, arc_number):
 
         # fit model
         model = create_sequential_model(arc_number)  # compile and build CNN model
-        history = model.fit(trainX, trainY, epochs=2, batch_size=32, validation_data=(testX, testY))
+        history = model.fit(trainX, trainY, epochs=10, batch_size=32, validation_data=(testX, testY))
 
         # evaluate model
         _, acc = model.evaluate(testX, testY, verbose=0)

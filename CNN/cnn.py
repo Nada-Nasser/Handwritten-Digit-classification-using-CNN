@@ -1,4 +1,3 @@
-from sklearn.model_selection import KFold
 from CNN.helpers import create_sequential_model, prepare_training_and_testing_data, plt_history, \
     apply_cross_validation_and_evaluate, accuracy_summary
 
@@ -8,7 +7,7 @@ def run_cnn(arc_number):
     # the images are grayscale.
     (train_x, train_y), (test_x, test_y) = prepare_training_and_testing_data()
 
-    nkfold = 3
+    nkfold = 5
     results, histories, bestModel = apply_cross_validation_and_evaluate(train_x, train_y, nkfold ,arc_number)
 
     plt_history(histories)
